@@ -5,23 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RJNet Marketing</title>
   <style>
-    .rjnet-logo-svg { display:inline-block; vertical-align:middle; }
-  </style>
-  <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', system-ui, sans-serif; background: #F4F4F4; color: #222; }
     input, select, textarea, button { font-family: inherit; }
-    input, select, textarea {
-      width: 100%; border: 1.5px solid #E8E8E8; border-radius: 10px;
-      padding: 10px 14px; font-size: 14px; outline: none; background: #FAFAFA;
-    }
+    input, select, textarea { width: 100%; border: 1.5px solid #E8E8E8; border-radius: 10px; padding: 10px 14px; font-size: 14px; outline: none; background: #FAFAFA; }
     textarea { min-height: 80px; resize: vertical; }
     .btn-primary { background: #F5C800; color: #111; border: none; border-radius: 12px; padding: 12px 24px; font-weight: 700; font-size: 14px; cursor: pointer; }
     .btn-primary.sm { border-radius: 8px; padding: 7px 16px; font-size: 13px; }
     .btn-primary.red { background: #CC3333; color: #fff; }
     .btn-ghost { background: transparent; color: #222; border: 1.5px solid #E8E8E8; border-radius: 12px; padding: 12px 24px; font-weight: 600; font-size: 14px; cursor: pointer; }
     .btn-ghost.sm { border-radius: 8px; padding: 7px 16px; font-size: 13px; }
-    .card { background: #fff; border-radius: 18px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
     .modal-box { background: #fff; border-radius: 20px; padding: 2rem; width: min(95vw, 480px); max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
     .field-label { font-size: 11px; font-weight: 700; color: #777; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; display: block; }
@@ -29,7 +22,7 @@
     .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
     .topbar { background: #111; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; position: sticky; top: 0; z-index: 50; }
     .main { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .eventos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
     .evento-card { background: #fff; border-radius: 18px; padding: 1.25rem; cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: transform .15s, box-shadow .15s; }
     .evento-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
     .lead-card { background: #fff; border-radius: 16px; padding: 1rem 1.25rem; display: flex; gap: 14px; align-items: flex-start; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 10px; }
@@ -45,7 +38,9 @@
     th { text-align: left; font-size: 11px; font-weight: 700; color: #777; letter-spacing: 1px; text-transform: uppercase; padding: 8px 12px; border-bottom: 1.5px solid #F4F4F4; }
     td { padding: 10px 12px; border-bottom: 1px solid #F4F4F4; vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
-    .stat-card { background: #fff; border-radius: 16px; padding: 1.25rem 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .card { background: #fff; border-radius: 18px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .logo-rjnet { width: 72px; height: auto; margin: 0 auto 1.25rem; display: block; }
+    .logo-topbar { height: 30px; width: auto; }
   </style>
 </head>
 <body>
@@ -53,34 +48,19 @@
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
-    <div style="margin:0 auto 1.25rem;width:64px;height:64px;display:flex;align-items:center;justify-content:center">
-  <svg width="64" height="64" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="lg1" cx="60%" cy="30%" r="70%">
-        <stop offset="0%" stop-color="#FFD700"/>
-        <stop offset="50%" stop-color="#FF6600"/>
-        <stop offset="100%" stop-color="#CC0000"/>
-      </radialGradient>
-    </defs>
-    <path d="M 70 10 C 85 10 90 25 80 38 L 55 65 C 45 78 50 90 35 90 C 20 90 15 75 25 62 L 50 35 C 60 22 55 10 70 10 Z" fill="url(#lg1)" stroke="white" stroke-width="2"/>
-    <path d="M 30 10 C 15 10 10 25 20 38 L 45 65 C 55 78 50 90 65 90 C 80 90 85 75 75 62 L 50 35 C 40 22 45 10 30 10 Z" fill="url(#lg1)" stroke="white" stroke-width="2" opacity="0.85"/>
-    <text x="50" y="56" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="18" fill="white">RJ</text>
-  </svg>
-</div>
+    <img src="data:image/png;base64,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" class="logo-rjnet" alt="RJNet" />
     <div style="font-weight:800;font-size:22px;color:#111;margin-bottom:4px">RJNet Marketing</div>
     <div style="font-size:13px;color:#777;margin-bottom:1.5rem">Gestão de leads em eventos</div>
     <div class="tabs">
       <button class="tab active" onclick="setTab('vendedor')">Vendedor</button>
       <button class="tab" onclick="setTab('admin')">Admin</button>
     </div>
-    <!-- Vendedor -->
     <div id="tab-vendedor">
       <div class="field"><input id="v-usuario" placeholder="Usuário" /></div>
       <div class="field"><input id="v-senha" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter') loginVendedor()" /></div>
       <div id="v-erro" style="color:#CC3333;font-size:13px;margin-bottom:10px;display:none"></div>
       <button class="btn-primary" onclick="loginVendedor()" style="width:100%;padding:13px;font-size:15px;border-radius:12px">Entrar →</button>
     </div>
-    <!-- Admin -->
     <div id="tab-admin" style="display:none">
       <div class="field"><input id="a-usuario" placeholder="Usuário" /></div>
       <div class="field"><input id="a-senha" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter') loginAdmin()" /></div>
@@ -95,21 +75,11 @@
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:10px">
       <button id="btn-voltar" onclick="voltarDash()" style="display:none;background:none;border:none;cursor:pointer;color:#fff;font-size:18px;opacity:.7;margin-right:4px">←</button>
-      <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-        <defs>
-          <radialGradient id="lg2" cx="60%" cy="30%" r="70%">
-            <stop offset="0%" stop-color="#FFD700"/>
-            <stop offset="50%" stop-color="#FF6600"/>
-            <stop offset="100%" stop-color="#CC0000"/>
-          </radialGradient>
-        </defs>
-        <path d="M 70 10 C 85 10 90 25 80 38 L 55 65 C 45 78 50 90 35 90 C 20 90 15 75 25 62 L 50 35 C 60 22 55 10 70 10 Z" fill="url(#lg2)" stroke="white" stroke-width="2"/>
-        <path d="M 30 10 C 15 10 10 25 20 38 L 45 65 C 55 78 50 90 65 90 C 80 90 85 75 75 62 L 50 35 C 40 22 45 10 30 10 Z" fill="url(#lg2)" stroke="white" stroke-width="2" opacity="0.85"/>
-      </svg>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACDkAAARiCAYAAACk3b7nAAAACXBIWXMAAC4jAAAuIwF4pT92AAAgAElEQVR4nOzQQQ2AQBADwK4CLJwE/L+QgARwgIPjTyAh94SZZ7NJ064AAJ/Re29J2s2ep/xqSjIP/GNLsr+4W5Mc17CqloFOAAAAAADgT5KcAAAA" class="logo-topbar" alt="RJNet" />
       <span style="color:#fff;font-weight:700;font-size:15px">RJNet</span>
       <span id="topbar-sub" style="color:#aaa;font-size:13px;display:none"></span>
     </div>
-    <div style="display:flex;align-items:center;gap:8px">
+    <div style="display:flex;gap:8px;align-items:center">
       <span id="user-badge-admin" class="admin-badge" style="display:none">ADMIN</span>
       <div style="display:flex;align-items:center;gap:6px;background:#222;border-radius:20px;padding:5px 12px">
         <div id="user-avatar" style="width:22px;height:22px;border-radius:50%;background:#F5C800;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#111"></div>
@@ -119,7 +89,6 @@
     </div>
   </div>
 
-  <!-- ADMIN NAV -->
   <div id="admin-nav" style="display:none;background:#1a1a1a;padding:0 1.5rem">
     <div style="max-width:720px;margin:0 auto;display:flex;gap:0">
       <button class="tab active" id="anav-eventos" onclick="adminTab('eventos')" style="color:#aaa;padding:12px 16px;font-size:13px">Eventos</button>
@@ -128,7 +97,6 @@
     </div>
   </div>
 
-  <!-- DASHBOARD / EVENTOS -->
   <div id="view-dash" class="main">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px">
       <div>
@@ -140,7 +108,6 @@
     <div id="eventos-container"></div>
   </div>
 
-  <!-- EVENTO DETALHE -->
   <div id="view-evento" class="main" style="display:none">
     <div class="card" style="margin-bottom:1rem">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
@@ -160,13 +127,11 @@
     <div id="leads-container"></div>
   </div>
 
-  <!-- ADMIN: TODOS OS LEADS -->
   <div id="view-todos-leads" class="main" style="display:none">
     <div style="font-weight:800;font-size:22px;color:#111;margin-bottom:1.25rem">Todos os Leads</div>
     <div id="todos-leads-container"></div>
   </div>
 
-  <!-- ADMIN: VENDEDORES -->
   <div id="view-vendedores" class="main" style="display:none">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px">
       <div style="font-weight:800;font-size:22px;color:#111">Vendedores</div>
@@ -229,28 +194,24 @@
 </div>
 
 <script>
-const SURL = "https://bqvclbxwfcorcyyyuecq.supabase.co/rest/v1";
-const SKEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxdmNsYnh3ZmNvcmN5eXl1ZWNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTE1MjQsImV4cCI6MjA5NDI2NzUyNH0.iNdMIyUrHDRPzYesag7Dl2EzFyRqXnHigcS2vCnIBYA";
-const ADMIN = { usuario: "Marketing", senha: "RJNET@10624" };
-const H = { "apikey": SKEY, "Authorization": `Bearer ${SKEY}`, "Content-Type": "application/json" };
+const SURL="https://bqvclbxwfcorcyyyuecq.supabase.co/rest/v1";
+const SKEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxdmNsYnh3ZmNvcmN5eXl1ZWNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTE1MjQsImV4cCI6MjA5NDI2NzUyNH0.iNdMIyUrHDRPzYesag7Dl2EzFyRqXnHigcS2vCnIBYA";
+const ADMIN={usuario:"Marketing",senha:"RJNET@10624"};
+const H={"apikey":SKEY,"Authorization":`Bearer ${SKEY}`,"Content-Type":"application/json"};
 
 async function sbGet(t,q=""){const r=await fetch(`${SURL}/${t}?${q}`,{headers:H});return r.json();}
 async function sbPost(t,b){return fetch(`${SURL}/${t}`,{method:"POST",headers:{...H,Prefer:"return=minimal"},body:JSON.stringify(b)});}
 async function sbPatch(t,q,b){return fetch(`${SURL}/${t}?${q}`,{method:"PATCH",headers:{...H,Prefer:"return=minimal"},body:JSON.stringify(b)});}
 async function sbDel(t,q){return fetch(`${SURL}/${t}?${q}`,{method:"DELETE",headers:{...H,Prefer:"return=minimal"}});}
 
-let sessao = null; // { tipo: 'admin'|'vendedor', nome, id? }
-let eventos=[], leads=[], evSel=null, editLeadId=null, searchTerm="";
-let adminView = "eventos";
+let sessao=null,eventos=[],leads=[],evSel=null,editLeadId=null,searchTerm="",adminView="eventos";
 
-// ---- TAB LOGIN ----
 function setTab(t){
   document.getElementById("tab-vendedor").style.display=t==="vendedor"?"block":"none";
   document.getElementById("tab-admin").style.display=t==="admin"?"block":"none";
   document.querySelectorAll(".tabs .tab").forEach((b,i)=>b.classList.toggle("active",(t==="vendedor"&&i===0)||(t==="admin"&&i===1)));
 }
 
-// ---- LOGIN ----
 async function loginVendedor(){
   const u=document.getElementById("v-usuario").value.trim();
   const s=document.getElementById("v-senha").value;
@@ -278,6 +239,8 @@ function iniciarApp(){
   document.getElementById("app").style.display="block";
   document.getElementById("user-nome").textContent=sessao.nome;
   document.getElementById("user-avatar").textContent=sessao.nome[0].toUpperCase();
+  document.getElementById("vb-nome").textContent=sessao.nome;
+  document.getElementById("vb-avatar").textContent=sessao.nome[0].toUpperCase();
   if(sessao.tipo==="admin"){
     document.getElementById("user-badge-admin").style.display="inline-block";
     document.getElementById("admin-nav").style.display="block";
@@ -285,7 +248,7 @@ function iniciarApp(){
     document.getElementById("view-todos-leads").style.display="none";
     document.getElementById("view-vendedores").style.display="none";
     adminTab("eventos");
-  } else {
+  }else{
     document.getElementById("user-badge-admin").style.display="none";
     document.getElementById("admin-nav").style.display="none";
     document.getElementById("btn-novo-evento").style.display="none";
@@ -297,7 +260,7 @@ function iniciarApp(){
 }
 
 function sair(){
-  sessao=null; eventos=[]; leads=[]; evSel=null;
+  sessao=null;eventos=[];leads=[];evSel=null;
   document.getElementById("app").style.display="none";
   document.getElementById("login-screen").style.display="flex";
   document.getElementById("v-usuario").value="";
@@ -307,7 +270,6 @@ function sair(){
   setTab("vendedor");
 }
 
-// ---- ADMIN TABS ----
 function adminTab(t){
   adminView=t;
   ["eventos","leads","vendedores"].forEach(x=>{
@@ -320,12 +282,11 @@ function adminTab(t){
   document.getElementById("view-evento").style.display="none";
   document.getElementById("btn-voltar").style.display="none";
   document.getElementById("topbar-sub").style.display="none";
-  if(t==="eventos") carregarEventos();
-  if(t==="leads") carregarTodosLeads();
-  if(t==="vendedores") carregarVendedores();
+  if(t==="eventos")carregarEventos();
+  if(t==="leads")carregarTodosLeads();
+  if(t==="vendedores")carregarVendedores();
 }
 
-// ---- EVENTOS ----
 async function carregarEventos(){
   eventos=await sbGet("eventos","order=created_at.desc");
   renderEventos();
@@ -335,8 +296,8 @@ function renderEventos(){
   const c=eventos.length;
   document.getElementById("eventos-count").textContent=`${c} evento${c!==1?"s":""} cadastrado${c!==1?"s":""}`;
   const el=document.getElementById("eventos-container");
-  if(!c){el.innerHTML=`<div class="empty-state"><div style="font-size:36px;margin-bottom:8px">📋</div><div style="font-weight:600;color:#111;margin-bottom:4px">Nenhum evento ainda</div><div style="font-size:13px;color:#777">Aguarde o admin criar um evento</div></div>`;return;}
-  el.innerHTML=`<div class="grid">${eventos.map(ev=>`
+  if(!c){el.innerHTML=`<div class="empty-state"><div style="font-size:36px;margin-bottom:8px">📋</div><div style="font-weight:600;color:#111;margin-bottom:4px">Nenhum evento ainda</div><div style="font-size:13px;color:#777">Clique em "+ Novo evento" para começar</div></div>`;return;}
+  el.innerHTML=`<div class="eventos-grid">${eventos.map(ev=>`
     <div class="evento-card" onclick="abrirEvento('${ev.id}')">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
         <div style="width:38px;height:38px;background:#F5C800;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">📍</div>
@@ -355,13 +316,13 @@ function renderEventos(){
       const ls=await sbGet("leads",`evento_id=eq.${ev.id}`);
       const el=document.getElementById(`cnt-${ev.id}`);
       if(el){const n=ls.length;el.textContent=`${n} lead${n!==1?"s":""}`;el.style.background=n>0?"#F5C800":"#F4F4F4";el.style.color=n>0?"#111":"#777";}
-    } else {
+    }else{
       const todos=await sbGet("leads",`evento_id=eq.${ev.id}`);
       const meus=todos.filter(l=>l.vendedor_id===sessao.id);
       const ce=document.getElementById(`cnt-${ev.id}`);
       const cm=document.getElementById(`meus-${ev.id}`);
       if(ce){const n=todos.length;ce.textContent=`Total: ${n}`;ce.style.background=n>0?"#F5C800":"#F4F4F4";ce.style.color=n>0?"#111":"#777";}
-      if(cm){cm.textContent=`Meus: ${meus.length}`;}
+      if(cm)cm.textContent=`Meus: ${meus.length}`;
     }
   });
 }
@@ -373,19 +334,18 @@ function abrirModalEvento(){
 function fecharModalEvento(){document.getElementById("modal-evento").style.display="none";}
 
 async function criarEvento(){
-  const nome=document.getElementById("ef-nome").value.trim(); if(!nome) return;
+  const nome=document.getElementById("ef-nome").value.trim();if(!nome)return;
   await sbPost("eventos",{nome,data:document.getElementById("ef-data").value||null,local:document.getElementById("ef-local").value||null,descricao:document.getElementById("ef-desc").value||null});
-  fecharModalEvento(); await carregarEventos();
+  fecharModalEvento();await carregarEventos();
 }
 
 async function deletarEvento(id){
-  if(!confirm("Excluir este evento e todos os leads?")) return;
+  if(!confirm("Excluir este evento e todos os leads?"))return;
   await sbDel("leads",`evento_id=eq.${id}`);
   await sbDel("eventos",`id=eq.${id}`);
   await carregarEventos();
 }
 
-// ---- EVENTO DETALHE ----
 async function abrirEvento(id){
   evSel=eventos.find(e=>e.id===id);
   document.getElementById("view-dash").style.display="none";
@@ -394,9 +354,9 @@ async function abrirEvento(id){
   document.getElementById("view-evento").style.display="block";
   document.getElementById("btn-voltar").style.display="block";
   const ts=document.getElementById("topbar-sub");
-  ts.style.display="block"; ts.textContent=`› ${evSel.nome}`;
+  ts.style.display="block";ts.textContent=`› ${evSel.nome}`;
   document.getElementById("ev-nome").textContent=evSel.nome;
-  const meta=[]; if(evSel.data) meta.push(`📅 ${evSel.data}`); if(evSel.local) meta.push(`📍 ${evSel.local}`);
+  const meta=[];if(evSel.data)meta.push(`📅 ${evSel.data}`);if(evSel.local)meta.push(`📍 ${evSel.local}`);
   document.getElementById("ev-meta").innerHTML=meta.join(" &nbsp; ");
   document.getElementById("ev-desc").textContent=evSel.descricao||"";
   document.getElementById("btn-add-lead").style.display=sessao.tipo==="vendedor"?"block":"none";
@@ -407,15 +367,13 @@ function voltarDash(){
   document.getElementById("view-evento").style.display="none";
   document.getElementById("btn-voltar").style.display="none";
   document.getElementById("topbar-sub").style.display="none";
-  evSel=null; leads=[];
-  if(sessao.tipo==="admin") adminTab(adminView==="eventos"?"eventos":adminView);
-  else { document.getElementById("view-dash").style.display="block"; carregarEventos(); }
+  evSel=null;leads=[];
+  if(sessao.tipo==="admin")adminTab(adminView==="eventos"?"eventos":adminView);
+  else{document.getElementById("view-dash").style.display="block";carregarEventos();}
 }
 
 async function carregarLeads(){
-  const todos=await sbGet("leads",`evento_id=eq.${evSel.id}&order=created_at.desc`);
-  // vendedor vê todos mas só exibe dados completos dos seus
-  leads=todos;
+  leads=await sbGet("leads",`evento_id=eq.${evSel.id}&order=created_at.desc`);
   renderLeads();
 }
 
@@ -424,20 +382,15 @@ function filtrarLeads(v){searchTerm=v.toLowerCase();renderLeads();}
 function renderLeads(){
   const vends=[...new Set(leads.map(l=>l.vendedor_nome).filter(Boolean))];
   document.getElementById("vendedores-resumo").innerHTML=vends.map(v=>`<span class="tag" style="background:#111;color:#F5C800">${v}: ${leads.filter(l=>l.vendedor_nome===v).length}</span>`).join("");
-
-  let visíveis=leads;
-  if(searchTerm) visíveis=leads.filter(l=>[l.nome,l.telefone,l.email,l.interesse,l.vendedor_nome].some(v=>(v||"").toLowerCase().includes(searchTerm)));
-
+  if(sessao.tipo==="vendedor")document.getElementById("btn-add-lead").style.display="block";
+  let visiveis=leads;
+  if(searchTerm)visiveis=leads.filter(l=>[l.nome,l.telefone,l.email,l.interesse,l.vendedor_nome].some(v=>(v||"").toLowerCase().includes(searchTerm)));
   const c=document.getElementById("leads-container");
-  if(!visíveis.length){c.innerHTML=`<div class="empty-state"><div style="font-size:32px;margin-bottom:8px">👤</div><div style="font-weight:600;color:#111;margin-bottom:4px">${leads.length===0?"Nenhum lead ainda":"Nenhum resultado"}</div><div style="font-size:13px;color:#777">${leads.length===0?"Adicione o primeiro lead!":"Tente outro termo"}</div></div>`;return;}
-
-  // garantir botão add lead sempre visível para vendedor
-  if(sessao.tipo==="vendedor") document.getElementById("btn-add-lead").style.display="block";
-
-  c.innerHTML=visíveis.map(l=>{
-    const éMeu=sessao.tipo==="vendedor"&&l.vendedor_id===sessao.id;
-    const éAdmin=sessao.tipo==="admin";
-    const podeVer=éMeu||éAdmin;
+  if(!visiveis.length){c.innerHTML=`<div class="empty-state"><div style="font-size:32px;margin-bottom:8px">👤</div><div style="font-weight:600;color:#111;margin-bottom:4px">${leads.length===0?"Nenhum lead ainda":"Nenhum resultado"}</div><div style="font-size:13px;color:#777">${leads.length===0?"Adicione o primeiro lead!":"Tente outro termo"}</div></div>`;return;}
+  c.innerHTML=visiveis.map(l=>{
+    const eMeu=sessao.tipo==="vendedor"&&l.vendedor_id===sessao.id;
+    const eAdmin=sessao.tipo==="admin";
+    const podeVer=eMeu||eAdmin;
     return `<div class="lead-card">
       <div class="avatar">${(l.nome||"?").slice(0,2).toUpperCase()}</div>
       <div style="flex:1;min-width:0">
@@ -451,26 +404,23 @@ function renderLeads(){
         :`<div style="font-size:12px;color:#bbb;font-style:italic">Cadastrado por ${l.vendedor_nome||"outro vendedor"}</div>`}
       </div>
       ${podeVer?`<div style="display:flex;gap:4px;flex-shrink:0">
-        ${éMeu?`<button onclick="editarLead('${l.id}')" style="background:#F4F4F4;border:none;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px">✎</button>`:""}
-        ${éAdmin||éMeu?`<button onclick="deletarLead('${l.id}')" style="background:none;border:none;cursor:pointer;color:#CC3333;font-size:13px;padding:6px 10px;font-weight:600">✕</button>`:""}
+        ${eMeu?`<button onclick="editarLead('${l.id}')" style="background:#F4F4F4;border:none;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px">✎</button>`:""}
+        ${eAdmin||eMeu?`<button onclick="deletarLead('${l.id}')" style="background:none;border:none;cursor:pointer;color:#CC3333;font-size:13px;padding:6px 10px;font-weight:600">✕</button>`:""}
       </div>`:""}
     </div>`;
   }).join("");
 }
 
-// ---- LEADS ----
 function abrirModalLead(){
   editLeadId=null;
   document.getElementById("lead-modal-titulo").textContent="Novo lead";
   ["lf-nome","lf-tel","lf-email","lf-obs"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("lf-interesse").value="";
-  document.getElementById("vb-nome").textContent=sessao.nome;
-  document.getElementById("vb-avatar").textContent=sessao.nome[0].toUpperCase();
   document.getElementById("modal-lead").style.display="flex";
 }
 
 function editarLead(id){
-  const l=leads.find(x=>x.id===id); if(!l) return;
+  const l=leads.find(x=>x.id===id);if(!l)return;
   editLeadId=id;
   document.getElementById("lead-modal-titulo").textContent="Editar lead";
   document.getElementById("lf-nome").value=l.nome||"";
@@ -478,35 +428,30 @@ function editarLead(id){
   document.getElementById("lf-email").value=l.email||"";
   document.getElementById("lf-interesse").value=l.interesse||"";
   document.getElementById("lf-obs").value=l.obs||"";
-  document.getElementById("vb-nome").textContent=sessao.nome;
-  document.getElementById("vb-avatar").textContent=sessao.nome[0].toUpperCase();
   document.getElementById("modal-lead").style.display="flex";
 }
 
 function fecharModalLead(){document.getElementById("modal-lead").style.display="none";editLeadId=null;}
 
 async function salvarLead(){
-  const nome=document.getElementById("lf-nome").value.trim(); if(!nome) return;
+  const nome=document.getElementById("lf-nome").value.trim();if(!nome)return;
   const body={nome,telefone:document.getElementById("lf-tel").value||null,email:document.getElementById("lf-email").value||null,
-    interesse:document.getElementById("lf-interesse").value||null,obs:document.getElementById("lf-obs").value||null,
-    vendedor_nome:sessao.nome, vendedor_id:sessao.id};
-  if(editLeadId) await sbPatch("leads",`id=eq.${editLeadId}`,body);
+    interesse:document.getElementById("lf-interesse").value||null,obs:document.getElementById("lf-obs").value||null,vendedor_nome:sessao.nome,vendedor_id:sessao.id};
+  if(editLeadId)await sbPatch("leads",`id=eq.${editLeadId}`,body);
   else await sbPost("leads",{...body,evento_id:evSel.id});
-  fecharModalLead(); await carregarLeads();
+  fecharModalLead();await carregarLeads();
 }
 
 async function deletarLead(id){
-  if(!confirm("Excluir este lead?")) return;
-  await sbDel("leads",`id=eq.${id}`); await carregarLeads();
+  if(!confirm("Excluir este lead?"))return;
+  await sbDel("leads",`id=eq.${id}`);await carregarLeads();
 }
 
-// ---- ADMIN: TODOS LEADS ----
 async function carregarTodosLeads(){
   const todos=await sbGet("leads","order=created_at.desc");
   const evts=await sbGet("eventos","order=created_at.desc");
   const c=document.getElementById("todos-leads-container");
   if(!todos.length){c.innerHTML=`<div class="empty-state"><div style="font-size:32px;margin-bottom:8px">📋</div><div style="font-weight:600">Nenhum lead cadastrado ainda</div></div>`;return;}
-  // agrupar por evento
   const porEvento={};
   todos.forEach(l=>{if(!porEvento[l.evento_id])porEvento[l.evento_id]=[];porEvento[l.evento_id].push(l);});
   c.innerHTML=evts.filter(e=>porEvento[e.id]).map(e=>`
@@ -525,7 +470,6 @@ async function carregarTodosLeads(){
     </div>`).join("");
 }
 
-// ---- ADMIN: VENDEDORES ----
 async function carregarVendedores(){
   const vends=await sbGet("vendedores","order=created_at.asc");
   const todos=await sbGet("leads","");
@@ -558,15 +502,14 @@ async function criarVendedor(){
   if(!nome||!usuario||!senha){err.textContent="Preencha todos os campos.";err.style.display="block";return;}
   const r=await sbPost("vendedores",{nome,usuario,senha});
   if(!r.ok){err.textContent="Usuário já existe ou erro ao criar.";err.style.display="block";return;}
-  fecharModalVendedor(); await carregarVendedores();
+  fecharModalVendedor();await carregarVendedores();
 }
 
 async function deletarVendedor(id){
-  if(!confirm("Excluir este vendedor?")) return;
-  await sbDel("vendedores",`id=eq.${id}`); await carregarVendedores();
+  if(!confirm("Excluir este vendedor?"))return;
+  await sbDel("vendedores",`id=eq.${id}`);await carregarVendedores();
 }
 
-// ---- EXPORT CSV ----
 function exportCSV(){
   const rows=[["Vendedor","Nome","Telefone","E-mail","Interesse","Observações"],...leads.map(l=>[l.vendedor_nome,l.nome,l.telefone,l.email,l.interesse,l.obs])];
   const csv=rows.map(r=>r.map(c=>`"${(c||"").replace(/"/g,'""')}"`).join(",")).join("\n");
