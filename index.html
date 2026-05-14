@@ -256,10 +256,16 @@ function iniciarApp(){
     document.getElementById("user-badge-admin").style.display="inline-block";
     document.getElementById("admin-nav").style.display="block";
     document.getElementById("btn-novo-evento").style.display="block";
+    document.getElementById("view-todos-leads").style.display="none";
+    document.getElementById("view-vendedores").style.display="none";
     adminTab("eventos");
   } else {
-    document.getElementById("btn-novo-evento").style.display="none";
+    document.getElementById("user-badge-admin").style.display="none";
     document.getElementById("admin-nav").style.display="none";
+    document.getElementById("btn-novo-evento").style.display="none";
+    document.getElementById("view-dash").style.display="block";
+    document.getElementById("view-todos-leads").style.display="none";
+    document.getElementById("view-vendedores").style.display="none";
     carregarEventos();
   }
 }
@@ -398,6 +404,9 @@ function renderLeads(){
 
   const c=document.getElementById("leads-container");
   if(!visíveis.length){c.innerHTML=`<div class="empty-state"><div style="font-size:32px;margin-bottom:8px">👤</div><div style="font-weight:600;color:#111;margin-bottom:4px">${leads.length===0?"Nenhum lead ainda":"Nenhum resultado"}</div><div style="font-size:13px;color:#777">${leads.length===0?"Adicione o primeiro lead!":"Tente outro termo"}</div></div>`;return;}
+
+  // garantir botão add lead sempre visível para vendedor
+  if(sessao.tipo==="vendedor") document.getElementById("btn-add-lead").style.display="block";
 
   c.innerHTML=visíveis.map(l=>{
     const éMeu=sessao.tipo==="vendedor"&&l.vendedor_id===sessao.id;
