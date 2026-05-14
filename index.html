@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RJNet Marketing</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #F4F4F4; color: #222; }
+    input, select, textarea, button { font-family: inherit; }
+    input, select, textarea {
+      width: 100%; border: 1.5px solid #E8E8E8; border-radius: 10px;
+      padding: 10px 14px; font-size: 14px; outline: none; background: #FAFAFA;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+    .btn-primary { background: #F5C800; color: #111; border: none; border-radius: 12px; padding: 12px 24px; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .btn-primary.sm { border-radius: 8px; padding: 7px 16px; font-size: 13px; }
+    .btn-primary.red { background: #CC3333; color: #fff; }
+    .btn-ghost { background: transparent; color: #222; border: 1.5px solid #E8E8E8; border-radius: 12px; padding: 12px 24px; font-weight: 600; font-size: 14px; cursor: pointer; }
+    .btn-ghost.sm { border-radius: 8px; padding: 7px 16px; font-size: 13px; }
+    .card { background: #fff; border-radius: 18px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
+    .modal-box { background: #fff; border-radius: 20px; padding: 2rem; width: min(95vw, 480px); max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .field-label { font-size: 11px; font-weight: 700; color: #777; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; display: block; }
+    .field { margin-bottom: 16px; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+    .topbar { background: #111; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; position: sticky; top: 0; z-index: 50; }
+    .main { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .evento-card { background: #fff; border-radius: 18px; padding: 1.25rem; cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: transform .15s, box-shadow .15s; }
+    .evento-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .lead-card { background: #fff; border-radius: 16px; padding: 1rem 1.25rem; display: flex; gap: 14px; align-items: flex-start; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 10px; }
+    .avatar { width: 42px; height: 42px; border-radius: 12px; background: #111; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: #F5C800; flex-shrink: 0; }
+    .empty-state { background: #fff; border-radius: 18px; padding: 3rem; text-align: center; border: 1.5px dashed #E8E8E8; }
+    #login-screen { min-height: 100vh; background: #111; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .login-box { background: #fff; border-radius: 24px; padding: 2.5rem 2rem; width: min(95vw, 360px); text-align: center; box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
+    .tabs { display: flex; gap: 0; background: #F4F4F4; border-radius: 12px; padding: 4px; margin-bottom: 1.5rem; }
+    .tab { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 9px; font-weight: 600; font-size: 13px; cursor: pointer; color: #777; transition: all .15s; }
+    .tab.active { background: #fff; color: #111; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .admin-badge { background: #F5C800; color: #111; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; letter-spacing: .5px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; font-size: 11px; font-weight: 700; color: #777; letter-spacing: 1px; text-transform: uppercase; padding: 8px 12px; border-bottom: 1.5px solid #F4F4F4; }
+    td { padding: 10px 12px; border-bottom: 1px solid #F4F4F4; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    .stat-card { background: #fff; border-radius: 16px; padding: 1.25rem 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div style="width:52px;height:52px;background:#F5C800;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:24px">📡</div>
+    <div style="font-weight:800;font-size:22px;color:#111;margin-bottom:4px">RJNet Marketing</div>
+    <div style="font-size:13px;color:#777;margin-bottom:1.5rem">Gestão de leads em eventos</div>
+    <div class="tabs">
+      <button class="tab active" onclick="setTab('vendedor')">Vendedor</button>
+      <button class="tab" onclick="setTab('admin')">Admin</button>
+    </div>
+    <!-- Vendedor -->
+    <div id="tab-vendedor">
+      <div class="field"><input id="v-usuario" placeholder="Usuário" /></div>
+      <div class="field"><input id="v-senha" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter') loginVendedor()" /></div>
+      <div id="v-erro" style="color:#CC3333;font-size:13px;margin-bottom:10px;display:none"></div>
+      <button class="btn-primary" onclick="loginVendedor()" style="width:100%;padding:13px;font-size:15px;border-radius:12px">Entrar →</button>
+    </div>
+    <!-- Admin -->
+    <div id="tab-admin" style="display:none">
+      <div class="field"><input id="a-usuario" placeholder="Usuário" /></div>
+      <div class="field"><input id="a-senha" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter') loginAdmin()" /></div>
+      <div id="a-erro" style="color:#CC3333;font-size:13px;margin-bottom:10px;display:none"></div>
+      <button class="btn-primary" onclick="loginAdmin()" style="width:100%;padding:13px;font-size:15px;border-radius:12px">Entrar como Admin →</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button id="btn-voltar" onclick="voltarDash()" style="display:none;background:none;border:none;cursor:pointer;color:#fff;font-size:18px;opacity:.7;margin-right:4px">←</button>
+      <div style="width:28px;height:28px;background:#F5C800;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px">📡</div>
+      <span style="color:#fff;font-weight:700;font-size:15px">RJNet</span>
+      <span id="topbar-sub" style="color:#aaa;font-size:13px;display:none"></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span id="user-badge-admin" class="admin-badge" style="display:none">ADMIN</span>
+      <div style="display:flex;align-items:center;gap:6px;background:#222;border-radius:20px;padding:5px 12px">
+        <div id="user-avatar" style="width:22px;height:22px;border-radius:50%;background:#F5C800;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#111"></div>
+        <span id="user-nome" style="color:#ddd;font-size:12px;font-weight:500"></span>
+      </div>
+      <button onclick="sair()" style="background:none;border:none;cursor:pointer;color:#666;font-size:11px;padding:4px 8px">Sair</button>
+    </div>
+  </div>
+
+  <!-- ADMIN NAV -->
+  <div id="admin-nav" style="display:none;background:#1a1a1a;padding:0 1.5rem">
+    <div style="max-width:720px;margin:0 auto;display:flex;gap:0">
+      <button class="tab active" id="anav-eventos" onclick="adminTab('eventos')" style="color:#aaa;padding:12px 16px;font-size:13px">Eventos</button>
+      <button class="tab" id="anav-leads" onclick="adminTab('leads')" style="color:#aaa;padding:12px 16px;font-size:13px">Todos os Leads</button>
+      <button class="tab" id="anav-vendedores" onclick="adminTab('vendedores')" style="color:#aaa;padding:12px 16px;font-size:13px">Vendedores</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD / EVENTOS -->
+  <div id="view-dash" class="main">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-weight:800;font-size:22px;color:#111">Eventos</div>
+        <div id="eventos-count" style="font-size:13px;color:#777"></div>
+      </div>
+      <button id="btn-novo-evento" class="btn-primary" onclick="abrirModalEvento()" style="display:none">+ Novo evento</button>
+    </div>
+    <div id="eventos-container"></div>
+  </div>
+
+  <!-- EVENTO DETALHE -->
+  <div id="view-evento" class="main" style="display:none">
+    <div class="card" style="margin-bottom:1rem">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>
+          <div id="ev-nome" style="font-weight:800;font-size:20px;color:#111;margin-bottom:6px"></div>
+          <div id="ev-meta" style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:#777"></div>
+          <div id="ev-desc" style="font-size:13px;color:#777;margin-top:4px"></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap">
+          <button class="btn-ghost sm" onclick="exportCSV()">⬇ CSV</button>
+          <button id="btn-add-lead" class="btn-primary sm" onclick="abrirModalLead()" style="display:none">+ Lead</button>
+        </div>
+      </div>
+      <div id="vendedores-resumo" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid #F4F4F4"></div>
+    </div>
+    <input style="width:100%;border:1.5px solid #E8E8E8;border-radius:12px;padding:11px 16px;font-size:14px;outline:none;background:#fff;margin-bottom:1rem" type="text" placeholder="🔍  Buscar lead..." oninput="filtrarLeads(this.value)" />
+    <div id="leads-container"></div>
+  </div>
+
+  <!-- ADMIN: TODOS OS LEADS -->
+  <div id="view-todos-leads" class="main" style="display:none">
+    <div style="font-weight:800;font-size:22px;color:#111;margin-bottom:1.25rem">Todos os Leads</div>
+    <div id="todos-leads-container"></div>
+  </div>
+
+  <!-- ADMIN: VENDEDORES -->
+  <div id="view-vendedores" class="main" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px">
+      <div style="font-weight:800;font-size:22px;color:#111">Vendedores</div>
+      <button class="btn-primary" onclick="abrirModalVendedor()">+ Novo vendedor</button>
+    </div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Nome</th><th>Usuário</th><th>Leads</th><th></th></tr></thead>
+        <tbody id="vendedores-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAIS -->
+<div id="modal-evento" class="modal-overlay" style="display:none" onclick="if(event.target===this)fecharModalEvento()">
+  <div class="modal-box">
+    <div style="font-weight:800;font-size:20px;color:#111;margin-bottom:1.5rem">Novo evento</div>
+    <div class="field"><label class="field-label">Nome *</label><input id="ef-nome" placeholder="Ex: Festa de Monsuaba 2026" /></div>
+    <div class="field"><label class="field-label">Data</label><input id="ef-data" type="date" /></div>
+    <div class="field"><label class="field-label">Local</label><input id="ef-local" placeholder="Ex: Praça Central, Angra dos Reis" /></div>
+    <div class="field"><label class="field-label">Descrição</label><textarea id="ef-desc" placeholder="Detalhes..."></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn-ghost" onclick="fecharModalEvento()">Cancelar</button>
+      <button class="btn-primary" onclick="criarEvento()">Criar evento</button>
+    </div>
+  </div>
+</div>
+
+<div id="modal-lead" class="modal-overlay" style="display:none" onclick="if(event.target===this)fecharModalLead()">
+  <div class="modal-box">
+    <div id="lead-modal-titulo" style="font-weight:800;font-size:20px;color:#111;margin-bottom:6px">Novo lead</div>
+    <div style="margin-bottom:1.25rem"><span id="vend-badge" style="display:inline-flex;align-items:center;gap:6px;background:#111;border-radius:20px;padding:4px 12px"><span id="vb-avatar" style="width:18px;height:18px;border-radius:50%;background:#F5C800;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#111"></span><span id="vb-nome" style="color:#F5C800;font-size:12px;font-weight:600"></span></span></div>
+    <div class="field"><label class="field-label">Nome *</label><input id="lf-nome" placeholder="Nome completo" /></div>
+    <div class="field"><label class="field-label">Telefone</label><input id="lf-tel" type="tel" placeholder="(24) 99999-9999" /></div>
+    <div class="field"><label class="field-label">E-mail</label><input id="lf-email" type="email" placeholder="email@exemplo.com" /></div>
+    <div class="field"><label class="field-label">Interesse</label>
+      <select id="lf-interesse"><option value="">Selecione...</option><option>Internet Residencial</option><option>Internet Empresarial</option><option>Fibra Óptica</option><option>Link Dedicado</option><option>TV por Assinatura</option><option>Suporte Técnico</option><option>Outro</option></select>
+    </div>
+    <div class="field"><label class="field-label">Observações</label><textarea id="lf-obs" placeholder="Anotações extras..."></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn-ghost" onclick="fecharModalLead()">Cancelar</button>
+      <button class="btn-primary" onclick="salvarLead()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div id="modal-vendedor" class="modal-overlay" style="display:none" onclick="if(event.target===this)fecharModalVendedor()">
+  <div class="modal-box">
+    <div style="font-weight:800;font-size:20px;color:#111;margin-bottom:1.5rem">Novo vendedor</div>
+    <div class="field"><label class="field-label">Nome completo *</label><input id="vdf-nome" placeholder="Ex: João Silva" /></div>
+    <div class="field"><label class="field-label">Usuário *</label><input id="vdf-usuario" placeholder="Ex: joao" /></div>
+    <div class="field"><label class="field-label">Senha *</label><input id="vdf-senha" type="password" placeholder="Senha de acesso" /></div>
+    <div id="vdf-erro" style="color:#CC3333;font-size:13px;margin-bottom:10px;display:none"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn-ghost" onclick="fecharModalVendedor()">Cancelar</button>
+      <button class="btn-primary" onclick="criarVendedor()">Criar vendedor</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SURL = "https://bqvclbxwfcorcyyyuecq.supabase.co/rest/v1";
+const SKEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxdmNsYnh3ZmNvcmN5eXl1ZWNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTE1MjQsImV4cCI6MjA5NDI2NzUyNH0.iNdMIyUrHDRPzYesag7Dl2EzFyRqXnHigcS2vCnIBYA";
+const ADMIN = { usuario: "Marketing", senha: "RJNET@10624" };
+const H = { "apikey": SKEY, "Authorization": `Bearer ${SKEY}`, "Content-Type": "application/json" };
+
+async function sbGet(t,q=""){const r=await fetch(`${SURL}/${t}?${q}`,{headers:H});return r.json();}
+async function sbPost(t,b){return fetch(`${SURL}/${t}`,{method:"POST",headers:{...H,Prefer:"return=minimal"},body:JSON.stringify(b)});}
+async function sbPatch(t,q,b){return fetch(`${SURL}/${t}?${q}`,{method:"PATCH",headers:{...H,Prefer:"return=minimal"},body:JSON.stringify(b)});}
+async function sbDel(t,q){return fetch(`${SURL}/${t}?${q}`,{method:"DELETE",headers:{...H,Prefer:"return=minimal"}});}
+
+let sessao = null; // { tipo: 'admin'|'vendedor', nome, id? }
+let eventos=[], leads=[], evSel=null, editLeadId=null, searchTerm="";
+let adminView = "eventos";
+
+// ---- TAB LOGIN ----
+function setTab(t){
+  document.getElementById("tab-vendedor").style.display=t==="vendedor"?"block":"none";
+  document.getElementById("tab-admin").style.display=t==="admin"?"block":"none";
+  document.querySelectorAll(".tabs .tab").forEach((b,i)=>b.classList.toggle("active",(t==="vendedor"&&i===0)||(t==="admin"&&i===1)));
+}
+
+// ---- LOGIN ----
+async function loginVendedor(){
+  const u=document.getElementById("v-usuario").value.trim();
+  const s=document.getElementById("v-senha").value;
+  const err=document.getElementById("v-erro");
+  err.style.display="none";
+  if(!u||!s){err.textContent="Preencha usuário e senha.";err.style.display="block";return;}
+  const res=await sbGet("vendedores",`usuario=eq.${encodeURIComponent(u)}&senha=eq.${encodeURIComponent(s)}`);
+  if(!res.length){err.textContent="Usuário ou senha incorretos.";err.style.display="block";return;}
+  sessao={tipo:"vendedor",nome:res[0].nome,id:res[0].id};
+  iniciarApp();
+}
+
+function loginAdmin(){
+  const u=document.getElementById("a-usuario").value.trim();
+  const s=document.getElementById("a-senha").value;
+  const err=document.getElementById("a-erro");
+  err.style.display="none";
+  if(u!==ADMIN.usuario||s!==ADMIN.senha){err.textContent="Credenciais incorretas.";err.style.display="block";return;}
+  sessao={tipo:"admin",nome:"Admin"};
+  iniciarApp();
+}
+
+function iniciarApp(){
+  document.getElementById("login-screen").style.display="none";
+  document.getElementById("app").style.display="block";
+  document.getElementById("user-nome").textContent=sessao.nome;
+  document.getElementById("user-avatar").textContent=sessao.nome[0].toUpperCase();
+  if(sessao.tipo==="admin"){
+    document.getElementById("user-badge-admin").style.display="inline-block";
+    document.getElementById("admin-nav").style.display="block";
+    document.getElementById("btn-novo-evento").style.display="block";
+    adminTab("eventos");
+  } else {
+    document.getElementById("btn-novo-evento").style.display="none";
+    document.getElementById("admin-nav").style.display="none";
+    carregarEventos();
+  }
+}
+
+function sair(){
+  sessao=null; eventos=[]; leads=[]; evSel=null;
+  document.getElementById("app").style.display="none";
+  document.getElementById("login-screen").style.display="flex";
+  document.getElementById("v-usuario").value="";
+  document.getElementById("v-senha").value="";
+  document.getElementById("a-usuario").value="";
+  document.getElementById("a-senha").value="";
+  setTab("vendedor");
+}
+
+// ---- ADMIN TABS ----
+function adminTab(t){
+  adminView=t;
+  ["eventos","leads","vendedores"].forEach(x=>{
+    document.getElementById(`anav-${x}`).style.color=x===t?"#F5C800":"#aaa";
+    document.getElementById(`anav-${x}`).style.fontWeight=x===t?"700":"500";
+  });
+  document.getElementById("view-dash").style.display=t==="eventos"?"block":"none";
+  document.getElementById("view-todos-leads").style.display=t==="leads"?"block":"none";
+  document.getElementById("view-vendedores").style.display=t==="vendedores"?"block":"none";
+  document.getElementById("view-evento").style.display="none";
+  document.getElementById("btn-voltar").style.display="none";
+  document.getElementById("topbar-sub").style.display="none";
+  if(t==="eventos") carregarEventos();
+  if(t==="leads") carregarTodosLeads();
+  if(t==="vendedores") carregarVendedores();
+}
+
+// ---- EVENTOS ----
+async function carregarEventos(){
+  eventos=await sbGet("eventos","order=created_at.desc");
+  renderEventos();
+}
+
+function renderEventos(){
+  const c=eventos.length;
+  document.getElementById("eventos-count").textContent=`${c} evento${c!==1?"s":""} cadastrado${c!==1?"s":""}`;
+  const el=document.getElementById("eventos-container");
+  if(!c){el.innerHTML=`<div class="empty-state"><div style="font-size:36px;margin-bottom:8px">📋</div><div style="font-weight:600;color:#111;margin-bottom:4px">Nenhum evento ainda</div><div style="font-size:13px;color:#777">Aguarde o admin criar um evento</div></div>`;return;}
+  el.innerHTML=`<div class="grid">${eventos.map(ev=>`
+    <div class="evento-card" onclick="abrirEvento('${ev.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div style="width:38px;height:38px;background:#F5C800;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">📍</div>
+        ${sessao.tipo==="admin"?`<button onclick="event.stopPropagation();deletarEvento('${ev.id}')" style="background:none;border:none;cursor:pointer;color:#ccc;font-size:16px;padding:2px;line-height:1">✕</button>`:""}
+      </div>
+      <div style="font-weight:700;font-size:15px;color:#111;margin-bottom:4px;line-height:1.3">${ev.nome}</div>
+      ${ev.data?`<div style="font-size:12px;color:#777;margin-bottom:2px">📅 ${ev.data}</div>`:""}
+      ${ev.local?`<div style="font-size:12px;color:#777;margin-bottom:10px">📍 ${ev.local}</div>`:""}
+      <div style="border-top:1px solid #F4F4F4;padding-top:10px;margin-top:4px">
+        <span id="cnt-${ev.id}" class="tag" style="background:#F4F4F4;color:#777">... leads</span>
+        ${sessao.tipo==="vendedor"?`<span id="meus-${ev.id}" class="tag" style="background:#111;color:#F5C800;margin-left:6px">Meus: ...</span>`:""}
+      </div>
+    </div>`).join("")}</div>`;
+  eventos.forEach(async ev=>{
+    if(sessao.tipo==="admin"){
+      const ls=await sbGet("leads",`evento_id=eq.${ev.id}`);
+      const el=document.getElementById(`cnt-${ev.id}`);
+      if(el){const n=ls.length;el.textContent=`${n} lead${n!==1?"s":""}`;el.style.background=n>0?"#F5C800":"#F4F4F4";el.style.color=n>0?"#111":"#777";}
+    } else {
+      const todos=await sbGet("leads",`evento_id=eq.${ev.id}`);
+      const meus=todos.filter(l=>l.vendedor_id===sessao.id);
+      const ce=document.getElementById(`cnt-${ev.id}`);
+      const cm=document.getElementById(`meus-${ev.id}`);
+      if(ce){const n=todos.length;ce.textContent=`Total: ${n}`;ce.style.background=n>0?"#F5C800":"#F4F4F4";ce.style.color=n>0?"#111":"#777";}
+      if(cm){cm.textContent=`Meus: ${meus.length}`;}
+    }
+  });
+}
+
+function abrirModalEvento(){
+  ["ef-nome","ef-data","ef-local","ef-desc"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("modal-evento").style.display="flex";
+}
+function fecharModalEvento(){document.getElementById("modal-evento").style.display="none";}
+
+async function criarEvento(){
+  const nome=document.getElementById("ef-nome").value.trim(); if(!nome) return;
+  await sbPost("eventos",{nome,data:document.getElementById("ef-data").value||null,local:document.getElementById("ef-local").value||null,descricao:document.getElementById("ef-desc").value||null});
+  fecharModalEvento(); await carregarEventos();
+}
+
+async function deletarEvento(id){
+  if(!confirm("Excluir este evento e todos os leads?")) return;
+  await sbDel("leads",`evento_id=eq.${id}`);
+  await sbDel("eventos",`id=eq.${id}`);
+  await carregarEventos();
+}
+
+// ---- EVENTO DETALHE ----
+async function abrirEvento(id){
+  evSel=eventos.find(e=>e.id===id);
+  document.getElementById("view-dash").style.display="none";
+  document.getElementById("view-todos-leads").style.display="none";
+  document.getElementById("view-vendedores").style.display="none";
+  document.getElementById("view-evento").style.display="block";
+  document.getElementById("btn-voltar").style.display="block";
+  const ts=document.getElementById("topbar-sub");
+  ts.style.display="block"; ts.textContent=`› ${evSel.nome}`;
+  document.getElementById("ev-nome").textContent=evSel.nome;
+  const meta=[]; if(evSel.data) meta.push(`📅 ${evSel.data}`); if(evSel.local) meta.push(`📍 ${evSel.local}`);
+  document.getElementById("ev-meta").innerHTML=meta.join(" &nbsp; ");
+  document.getElementById("ev-desc").textContent=evSel.descricao||"";
+  document.getElementById("btn-add-lead").style.display=sessao.tipo==="vendedor"?"block":"none";
+  await carregarLeads();
+}
+
+function voltarDash(){
+  document.getElementById("view-evento").style.display="none";
+  document.getElementById("btn-voltar").style.display="none";
+  document.getElementById("topbar-sub").style.display="none";
+  evSel=null; leads=[];
+  if(sessao.tipo==="admin") adminTab(adminView==="eventos"?"eventos":adminView);
+  else { document.getElementById("view-dash").style.display="block"; carregarEventos(); }
+}
+
+async function carregarLeads(){
+  const todos=await sbGet("leads",`evento_id=eq.${evSel.id}&order=created_at.desc`);
+  // vendedor vê todos mas só exibe dados completos dos seus
+  leads=todos;
+  renderLeads();
+}
+
+function filtrarLeads(v){searchTerm=v.toLowerCase();renderLeads();}
+
+function renderLeads(){
+  const vends=[...new Set(leads.map(l=>l.vendedor_nome).filter(Boolean))];
+  document.getElementById("vendedores-resumo").innerHTML=vends.map(v=>`<span class="tag" style="background:#111;color:#F5C800">${v}: ${leads.filter(l=>l.vendedor_nome===v).length}</span>`).join("");
+
+  let visíveis=leads;
+  if(searchTerm) visíveis=leads.filter(l=>[l.nome,l.telefone,l.email,l.interesse,l.vendedor_nome].some(v=>(v||"").toLowerCase().includes(searchTerm)));
+
+  const c=document.getElementById("leads-container");
+  if(!visíveis.length){c.innerHTML=`<div class="empty-state"><div style="font-size:32px;margin-bottom:8px">👤</div><div style="font-weight:600;color:#111;margin-bottom:4px">${leads.length===0?"Nenhum lead ainda":"Nenhum resultado"}</div><div style="font-size:13px;color:#777">${leads.length===0?"Adicione o primeiro lead!":"Tente outro termo"}</div></div>`;return;}
+
+  c.innerHTML=visíveis.map(l=>{
+    const éMeu=sessao.tipo==="vendedor"&&l.vendedor_id===sessao.id;
+    const éAdmin=sessao.tipo==="admin";
+    const podeVer=éMeu||éAdmin;
+    return `<div class="lead-card">
+      <div class="avatar">${(l.nome||"?").slice(0,2).toUpperCase()}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:15px;color:#111;margin-bottom:5px">${l.nome}</div>
+        ${podeVer?`<div style="display:flex;flex-wrap:wrap;gap:5px 12px;margin-bottom:${l.obs?6:0}px">
+          ${l.telefone?`<span style="font-size:12px;color:#777">📞 ${l.telefone}</span>`:""}
+          ${l.email?`<span style="font-size:12px;color:#777">✉ ${l.email}</span>`:""}
+          ${l.interesse?`<span class="tag" style="background:#F5C800;color:#111">${l.interesse}</span>`:""}
+          ${l.vendedor_nome?`<span class="tag" style="background:#111;color:#F5C800">👤 ${l.vendedor_nome}</span>`:""}
+        </div>${l.obs?`<div style="font-size:12px;color:#777;font-style:italic">${l.obs}</div>`:""}`
+        :`<div style="font-size:12px;color:#bbb;font-style:italic">Cadastrado por ${l.vendedor_nome||"outro vendedor"}</div>`}
+      </div>
+      ${podeVer?`<div style="display:flex;gap:4px;flex-shrink:0">
+        ${éMeu?`<button onclick="editarLead('${l.id}')" style="background:#F4F4F4;border:none;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px">✎</button>`:""}
+        ${éAdmin||éMeu?`<button onclick="deletarLead('${l.id}')" style="background:none;border:none;cursor:pointer;color:#CC3333;font-size:13px;padding:6px 10px;font-weight:600">✕</button>`:""}
+      </div>`:""}
+    </div>`;
+  }).join("");
+}
+
+// ---- LEADS ----
+function abrirModalLead(){
+  editLeadId=null;
+  document.getElementById("lead-modal-titulo").textContent="Novo lead";
+  ["lf-nome","lf-tel","lf-email","lf-obs"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("lf-interesse").value="";
+  document.getElementById("vb-nome").textContent=sessao.nome;
+  document.getElementById("vb-avatar").textContent=sessao.nome[0].toUpperCase();
+  document.getElementById("modal-lead").style.display="flex";
+}
+
+function editarLead(id){
+  const l=leads.find(x=>x.id===id); if(!l) return;
+  editLeadId=id;
+  document.getElementById("lead-modal-titulo").textContent="Editar lead";
+  document.getElementById("lf-nome").value=l.nome||"";
+  document.getElementById("lf-tel").value=l.telefone||"";
+  document.getElementById("lf-email").value=l.email||"";
+  document.getElementById("lf-interesse").value=l.interesse||"";
+  document.getElementById("lf-obs").value=l.obs||"";
+  document.getElementById("vb-nome").textContent=sessao.nome;
+  document.getElementById("vb-avatar").textContent=sessao.nome[0].toUpperCase();
+  document.getElementById("modal-lead").style.display="flex";
+}
+
+function fecharModalLead(){document.getElementById("modal-lead").style.display="none";editLeadId=null;}
+
+async function salvarLead(){
+  const nome=document.getElementById("lf-nome").value.trim(); if(!nome) return;
+  const body={nome,telefone:document.getElementById("lf-tel").value||null,email:document.getElementById("lf-email").value||null,
+    interesse:document.getElementById("lf-interesse").value||null,obs:document.getElementById("lf-obs").value||null,
+    vendedor_nome:sessao.nome, vendedor_id:sessao.id};
+  if(editLeadId) await sbPatch("leads",`id=eq.${editLeadId}`,body);
+  else await sbPost("leads",{...body,evento_id:evSel.id});
+  fecharModalLead(); await carregarLeads();
+}
+
+async function deletarLead(id){
+  if(!confirm("Excluir este lead?")) return;
+  await sbDel("leads",`id=eq.${id}`); await carregarLeads();
+}
+
+// ---- ADMIN: TODOS LEADS ----
+async function carregarTodosLeads(){
+  const todos=await sbGet("leads","order=created_at.desc");
+  const evts=await sbGet("eventos","order=created_at.desc");
+  const c=document.getElementById("todos-leads-container");
+  if(!todos.length){c.innerHTML=`<div class="empty-state"><div style="font-size:32px;margin-bottom:8px">📋</div><div style="font-weight:600">Nenhum lead cadastrado ainda</div></div>`;return;}
+  // agrupar por evento
+  const porEvento={};
+  todos.forEach(l=>{if(!porEvento[l.evento_id])porEvento[l.evento_id]=[];porEvento[l.evento_id].push(l);});
+  c.innerHTML=evts.filter(e=>porEvento[e.id]).map(e=>`
+    <div class="card" style="margin-bottom:1rem">
+      <div style="font-weight:700;font-size:16px;color:#111;margin-bottom:4px">📍 ${e.nome}</div>
+      <div style="font-size:12px;color:#777;margin-bottom:12px">${porEvento[e.id].length} leads</div>
+      <table>
+        <thead><tr><th>Nome</th><th>Telefone</th><th>Interesse</th><th>Vendedor</th></tr></thead>
+        <tbody>${porEvento[e.id].map(l=>`<tr>
+          <td style="font-weight:600">${l.nome}</td>
+          <td style="color:#777">${l.telefone||"-"}</td>
+          <td>${l.interesse?`<span class="tag" style="background:#F5C800;color:#111">${l.interesse}</span>`:"-"}</td>
+          <td><span class="tag" style="background:#111;color:#F5C800">👤 ${l.vendedor_nome||"-"}</span></td>
+        </tr>`).join("")}</tbody>
+      </table>
+    </div>`).join("");
+}
+
+// ---- ADMIN: VENDEDORES ----
+async function carregarVendedores(){
+  const vends=await sbGet("vendedores","order=created_at.asc");
+  const todos=await sbGet("leads","");
+  const tb=document.getElementById("vendedores-tbody");
+  if(!vends.length){tb.innerHTML=`<tr><td colspan="4" style="text-align:center;color:#777;padding:2rem">Nenhum vendedor cadastrado</td></tr>`;return;}
+  tb.innerHTML=vends.map(v=>{
+    const n=todos.filter(l=>l.vendedor_id===v.id).length;
+    return `<tr>
+      <td style="font-weight:600">${v.nome}</td>
+      <td style="color:#777">${v.usuario}</td>
+      <td><span class="tag" style="background:${n>0?"#F5C800":"#F4F4F4"};color:${n>0?"#111":"#777"}">${n} lead${n!==1?"s":""}</span></td>
+      <td><button onclick="deletarVendedor('${v.id}')" style="background:none;border:none;cursor:pointer;color:#CC3333;font-size:12px;font-weight:600">Excluir</button></td>
+    </tr>`;
+  }).join("");
+}
+
+function abrirModalVendedor(){
+  ["vdf-nome","vdf-usuario","vdf-senha"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("vdf-erro").style.display="none";
+  document.getElementById("modal-vendedor").style.display="flex";
+}
+function fecharModalVendedor(){document.getElementById("modal-vendedor").style.display="none";}
+
+async function criarVendedor(){
+  const nome=document.getElementById("vdf-nome").value.trim();
+  const usuario=document.getElementById("vdf-usuario").value.trim();
+  const senha=document.getElementById("vdf-senha").value;
+  const err=document.getElementById("vdf-erro");
+  err.style.display="none";
+  if(!nome||!usuario||!senha){err.textContent="Preencha todos os campos.";err.style.display="block";return;}
+  const r=await sbPost("vendedores",{nome,usuario,senha});
+  if(!r.ok){err.textContent="Usuário já existe ou erro ao criar.";err.style.display="block";return;}
+  fecharModalVendedor(); await carregarVendedores();
+}
+
+async function deletarVendedor(id){
+  if(!confirm("Excluir este vendedor?")) return;
+  await sbDel("vendedores",`id=eq.${id}`); await carregarVendedores();
+}
+
+// ---- EXPORT CSV ----
+function exportCSV(){
+  const rows=[["Vendedor","Nome","Telefone","E-mail","Interesse","Observações"],...leads.map(l=>[l.vendedor_nome,l.nome,l.telefone,l.email,l.interesse,l.obs])];
+  const csv=rows.map(r=>r.map(c=>`"${(c||"").replace(/"/g,'""')}"`).join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv"}));a.download=`${evSel.nome}_leads.csv`;a.click();
+}
+</script>
+</body>
+</html>
